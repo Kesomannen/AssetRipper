@@ -11,7 +11,6 @@ namespace AssetRipper.Tools.SystemTester
 
 		static void Main(string[] args)
 		{
-			Console.WriteLine("Hello World!");
 			//Logger.Add(new ConsoleLogger(true));
 			//Logger.Add(new FileLogger("AssetRipper.Tools.SystemTester.log"));
 			//Logger.LogSystemInformation("System Tester");
