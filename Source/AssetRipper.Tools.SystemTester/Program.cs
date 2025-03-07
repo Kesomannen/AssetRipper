@@ -11,22 +11,33 @@ namespace AssetRipper.Tools.SystemTester
 
 		static void Main(string[] args)
 		{
-			Logger.Add(new ConsoleLogger(true));
-			Logger.Add(new FileLogger("AssetRipper.Tools.SystemTester.log"));
-			Logger.LogSystemInformation("System Tester");
-			Logger.BlankLine();
+			Console.WriteLine("Hello World!");
+			//Logger.Add(new ConsoleLogger(true));
+			//Logger.Add(new FileLogger("AssetRipper.Tools.SystemTester.log"));
+			//Logger.LogSystemInformation("System Tester");
+			//Logger.BlankLine();
 
 			if (args.Length == 0)
 			{
-				RunTests();
-				Console.ReadLine();
+				//RunTests();
+				//Console.ReadLine();
+				Console.WriteLine("No arguments provided.");
 			}
 			else
 			{
-				Rip(args, Path.Join(AppContext.BaseDirectory, "Ripped"));
+				var settingsPath = args[0];
+                var outputPath = args[1];
+                var inputPaths = args.Skip(2).ToArray();
+                Console.WriteLine("Ripping...");
+                Console.WriteLine($"- settings: {settingsPath}");
+                Console.WriteLine($"- output: {outputPath}");
+                Console.WriteLine($"- input: {string.Join(", ", inputPaths)}");
+                Rip(inputPaths, outputPath, settingsPath);
+				//Rip(args, Path.Join(AppContext.BaseDirectory, "Ripped"));
 			}
 		}
 
+		/*
 		static void RunTests()
 		{
 			if (!Directory.Exists(TestsDirectory))
@@ -100,10 +111,14 @@ namespace AssetRipper.Tools.SystemTester
 				}
 			}
 		}
+		*/
 
-		private static void Rip(string[] inputPaths, string outputPath)
+		private static void Rip(string[] inputPaths, string outputPath, string settingsPath)
 		{
+			Logger.Clear();
+			Logger.Add(new ConsoleLogger(false));
 			LibraryConfiguration settings = new();
+			settings.LoadFromJsonPath(settingsPath);
 			settings.LogConfigurationValues();
 			ExportHandler exportHandler = new(settings);
 			GameData gameData = exportHandler.LoadAndProcess(inputPaths);

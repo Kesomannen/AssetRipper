@@ -49,6 +49,14 @@ public class LibraryConfiguration : CoreConfiguration
 			ExportSettings = settings.Export;
 		}
 	}
+	
+	public void LoadFromJsonPath(string path)
+	{
+		SerializedSettings settings = SerializedSettings.Load(path);
+		ImportSettings = settings.Import;
+		ProcessingSettings = settings.Processing;
+		ExportSettings = settings.Export;
+	}
 
 	public void SaveToDefaultPath()
 	{
